@@ -1,73 +1,118 @@
-# React + TypeScript + Vite
+# 🧠 Jogo da Memória
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projeto de **Jogo da Memória** desenvolvido com **React, TypeScript e Tailwind CSS**, permitindo ao usuário escolher o **tamanho do tabuleiro** e a **categoria das cartas**.
 
-Currently, two official plugins are available:
+Este projeto foi criado com foco em **aprendizado de lógica**, **boas práticas em React** e **organização de estado**, sendo ideal para portfólio e estudos.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🎮 Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* ✅ Escolha do tamanho do tabuleiro:
 
-## Expanding the ESLint configuration
+  * Pequeno: **5 x 4** (20 cartas)
+  * Médio: **6 x 5** (30 cartas)
+  * Grande: **8 x 7** (56 cartas)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* ✅ Escolha de categorias:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+  * Animais 🐶
+  * Plantas 🌱
+  * Objetos 📦
+  * (estrutura pronta para novas categorias)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+* ✅ Lógica completa de jogo:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+  * Embaralhamento automático
+  * Comparação de pares
+  * Bloqueio de cliques indevidos
+  * Manutenção de cartas acertadas
+
+* ✅ Interface responsiva e estilizada com Tailwind
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+* **React**
+* **TypeScript**
+* **Tailwind CSS**
+* **Vite** (ou CRA, dependendo do setup)
+
+---
+
+## 📦 Estrutura do Projeto
+
+```
+/src
+ ├── components
+ │    └── MemoryGame.tsx
+ ├── App.tsx
+ ├── main.tsx
+ └── index.css
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🧩 Como funciona o jogo
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. O usuário escolhe:
+
+   * o tamanho do tabuleiro
+   * a categoria das cartas
+
+2. O jogo:
+
+   * seleciona a quantidade necessária de pares
+   * duplica os valores
+   * embaralha as cartas
+
+3. O jogador pode virar **apenas duas cartas por vez**
+
+4. Se as cartas forem iguais:
+
+   * permanecem abertas
+
+5. Se forem diferentes:
+
+   * são fechadas após um pequeno delay
+
+---
+
+## ▶️ Como executar o projeto
+
+```bash
+
+npm install
+
+npm run dev
 ```
+
+Acesse no navegador:
+
+```
+http://localhost:5173
+```
+
+---
+
+## 🎨 Estilização
+
+O projeto utiliza **Tailwind CSS**, permitindo:
+
+* fácil ajuste de layout
+* cartas maiores para grids grandes
+* grid dinâmico baseado no tamanho escolhido
+
+---
+
+## 👩‍💻 Autora
+
+Deborah Prado Lyra
+Desenvolvedora Front-end
+
+Projeto desenvolvido para fins educacionais e portfólio.
+
+---
+
+✨ Sinta-se à vontade para clonar, estudar e evoluir este projeto!

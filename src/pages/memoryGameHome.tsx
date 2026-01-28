@@ -127,7 +127,7 @@ export default function MemoryGame() {
                     )
                 );
                 setSelected([]);
-            }, 800);
+            }, 900);
         }
     }
 
@@ -183,7 +183,7 @@ export default function MemoryGame() {
                     <button
                         key={card.id}
                         onClick={() => handleFlip(card)}
-                        className={`w-36 h-36 text-8xl rounded flex items-center justify-center
+                        className={`w-16 h-18 text-4xl rounded flex items-center justify-center
               ${card.flipped || card.matched
                                 ? "bg-white"
                                 : "bg-emerald-600"

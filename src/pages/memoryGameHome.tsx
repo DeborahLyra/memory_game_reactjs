@@ -58,6 +58,17 @@ const categories: Record<CategoryOption, string[]> = {
     ]
 };
 
+const bgByCategory = {
+    animals: "/bg-animals.jpg",
+    plants: "/bg-plants.jpg",
+    objects: "/bg-objects.jpg",
+    foods: "/bg-foods.jpg",
+    travel: "/bg-travel.jpg",
+    music: "/bg-music.jpg",
+    shapes: "/bg-shapes.jpg",
+    gaming: "/bg-gaming.jpg",
+  };
+
 const sizeMap: Record<SizeOption, { pairs: number; cols: number }> = {
     small: { pairs: 10, cols: 5 }, 
     medium: { pairs: 15, cols: 6 }, 
@@ -136,63 +147,74 @@ export default function MemoryGame() {
     }, []);
 
     return (
-        <div className="min-h-screen w-full bg-slate-800 flex flex-col items-center p-6">
-            <h1 className="text-4xl font-bold mb-4">🧠 Jogo da Memória</h1>
-
-            <div className="flex gap-4 mb-4">
-                <select
-                    className="p-2 rounded border-2 border-emerald-600"
-                    value={size}
-                    onChange={(e) => setSize(e.target.value as SizeOption)}
-                >
-                    <option value="small">Pequeno</option>
-                    <option value="medium">Médio</option>
-                    <option value="large">Grande</option>
-                </select>
-
-                <select
-                    className="p-2 rounded border-2 border-emerald-600"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value as CategoryOption)}
-                >
-                    <option value="animals">Animais</option>
-                    <option value="plants">Plantas</option>
-                    <option value="objects">Objetos</option>
-                    <option value="foods">Comidas</option>
-                    <option value="travel">Viagens</option>
-                    <option value="music">Música</option>
-                    <option value="shapes">Formas</option>
-                    <option value="gaming">Jogos</option>
-                </select>
-
-                <button
-                    onClick={startGame}
-                    className="px-4 py-2 bg-emerald-600 text-white rounded"
-                >
-                    Iniciar
-                </button>
-            </div>
-
-            <div
-                className="grid gap-4"
-                style={{
-                    gridTemplateColumns: `repeat(${sizeMap[size].cols}, minmax(0, 1fr))`,
-                }}
+        <div
+        className="relative min-h-screen bg-cover bg-center transition-all duration-500 flex flex-col items-center p-6"
+        style={{
+          backgroundImage: `url(${bgByCategory[category]})`,
+        }}
+      >
+        {/* OVERLAY */}
+        <div className="absolute inset-0 bg-black/50" />
+      
+        {/* CONTEÚDO */}
+        <div className="relative z-10 flex flex-col items-center w-full">
+          <h1 className="text-4xl font-bold mb-4 text-white">
+            🧠 Jogo da Memória
+          </h1>
+      
+          <div className="flex gap-4 mb-4">
+            <select
+              className="p-2 rounded border-2 border-emerald-600"
+              value={size}
+              onChange={(e) => setSize(e.target.value as SizeOption)}
             >
-                {cards.map((card) => (
-                    <button
-                        key={card.id}
-                        onClick={() => handleFlip(card)}
-                        className={`w-16 h-18 text-4xl rounded flex items-center justify-center
-              ${card.flipped || card.matched
-                                ? "bg-white"
-                                : "bg-emerald-600"
-                            }`}
-                    >
-                        {card.flipped || card.matched ? card.value : ""}
-                    </button>
-                ))}
-            </div>
+              <option value="small">Pequeno</option>
+              <option value="medium">Médio</option>
+              <option value="large">Grande</option>
+            </select>
+      
+            <select
+              className="p-2 rounded border-2 border-emerald-600"
+              value={category}
+              onChange={(e) => setCategory(e.target.value as CategoryOption)}
+            >
+              <option value="animals">Animais</option>
+              <option value="plants">Plantas</option>
+              <option value="objects">Objetos</option>
+              <option value="foods">Comidas</option>
+              <option value="travel">Viagens</option>
+              <option value="music">Música</option>
+              <option value="shapes">Formas</option>
+              <option value="gaming">Jogos</option>
+            </select>
+      
+            <button
+              onClick={startGame}
+              className="px-4 py-2 bg-emerald-600 text-white rounded"
+            >
+              Iniciar
+            </button>
+          </div>
+      
+          <div
+            className="grid gap-4"
+            style={{
+              gridTemplateColumns: `repeat(${sizeMap[size].cols}, minmax(0, 1fr))`,
+            }}
+          >
+            {cards.map((card) => (
+              <button
+                key={card.id}
+                onClick={() => handleFlip(card)}
+                className={`w-24 h-20 text-4xl rounded flex items-center justify-center
+                  ${card.flipped || card.matched ? "bg-white" : "bg-emerald-600"}`}
+              >
+                {card.flipped || card.matched ? card.value : ""}
+              </button>
+            ))}
+          </div>
         </div>
+      </div>
+      
     );
 }

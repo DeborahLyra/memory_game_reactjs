@@ -162,10 +162,8 @@ export default function MemoryGame() {
                 backgroundImage: `url(${bgByCategory[category]})`,
             }}
         >
-            {/* OVERLAY */}
             <div className="absolute inset-0 bg-black/50" />
 
-            {/* CONTEÚDO */}
             <div className="relative z-10 flex flex-col items-center w-full">
                 <h1 className="text-4xl font-bold mb-4 text-white">
                     🧠 Jogo da Memória
@@ -173,7 +171,7 @@ export default function MemoryGame() {
 
                 <div className="flex gap-4 mb-4">
                     <select
-                        className="p-2 rounded border-2 border-emerald-600"
+                        className="p-2 rounded border-2 bg-emerald-600 border-emerald-600"
                         value={size}
                         onChange={(e) => setSize(e.target.value as SizeOption)}
                     >
@@ -183,7 +181,7 @@ export default function MemoryGame() {
                     </select>
 
                     <select
-                        className="p-2 rounded border-2 border-emerald-600"
+                        className="p-2 rounded border-2 border-emerald-600 bg-emerald-600"
                         value={category}
                         onChange={(e) => setCategory(e.target.value as CategoryOption)}
                     >
@@ -199,7 +197,7 @@ export default function MemoryGame() {
 
                     <button
                         onClick={startGame}
-                        className="px-4 py-2 bg-emerald-600 text-white rounded"
+                        className="px-4 py-2 bg-green-600 text-white rounded"
                     >
                         Iniciar
                     </button>

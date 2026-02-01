@@ -2,20 +2,21 @@ import { useEffect, useState } from "react";
 
 type SizeOption = "small" | "medium" | "large";
 type CategoryOption =
-  | "animals"
-  | "plants"
-  | "objects"
-  | "foods"
-  | "travel"
-  | "music"
-  | "shapes"
-  | "gaming"
-  | "flags"
-  | "emotions"
-  | "sports"
-  | "weather"
-  | "people"
-  | "symbols";
+    | "animals"
+    | "plants"
+    | "objects"
+    | "foods"
+    | "travel"
+    | "music"
+    | "shapes"
+    | "gaming"
+    | "flags"
+    | "emotions"
+    | "sports"
+    | "weather"
+    | "people"
+    | "symbols"
+    | "vovo";
 
 type CardType = {
     id: number;
@@ -24,104 +25,120 @@ type CardType = {
     matched: boolean;
 };
 
+const vovoImages = [
+    "/public/vovo/vovo_bebendo.jpeg",
+    "/vovo/vovo_bolo.jpeg",
+    "/public/vovo/vovo_cacatua.jpeg",
+    "/public/vovo/vovo_cartola.jpeg",
+    "/public/vovo/vovo_cinema.jpeg",
+    "/public/vovo/vovo_comendo.jpeg",
+    "/public/vovo/vovo_coracao_coreano.jpeg",
+    "/public/vovo/vovo_dando_lingua.jpeg",
+    "/public/vovo/vovo_espantada.jpeg",
+    "/public/vovo/vovo_flores.jpeg",
+    "/public/vovo/vovo_joinha.jpeg",
+    "/public/vovo/vovo_julgando.jpg",
+];
+
 const categories: Record<CategoryOption, string[]> = {
     animals: [
-      "🐶","🐱","🐼","🦊","🐸","🦁","🐵","🐮","🐰","🐯","🦓","🦒",
-      "🐘","🐨","🐔","🦆","🦉","🦄","🐙","🦀","🐬","🐳","🦈","🐢",
-      "🐍","🦎","🐝","🦋"
+        "🐶", "🐱", "🐼", "🦊", "🐸", "🦁", "🐵", "🐮", "🐰", "🐯", "🦓", "🦒",
+        "🐘", "🐨", "🐔", "🦆", "🦉", "🦄", "🐙", "🦀", "🐬", "🐳", "🦈", "🐢",
+        "🐍", "🦎", "🐝", "🦋"
     ],
-  
-    plants: [
-      "🌵","🌴","🌸","🌻","🍀","🌺","🌼","🍁","🌿","🌲","🌳","🍃",
-      "🍄","🌹","🥀","🌾","🎋","🪴","🌷","🌱","🌰","🍂","🌽","🍅",
-      "🥕","🌶️","🥬","🥦"
-    ],
-  
-    objects: [
-      "🚗","📱","⌚","🎧","💡","📷","🖊️","🎒","💻","🖥️","🕹️","📚",
-      "📦","🔑","🧸","🎁","📺","☎️","🪑","🛋️","🚲","✈️","🚀","🧯",
-      "🔋","🧃","🕯️","🪟"
-    ],
-  
-    foods: [
-      "🍎","🍌","🍓","🍇","🍉","🍍","🥭","🍑",
-      "🍔","🍕","🌭","🍟","🥪","🌮","🍣","🍤",
-      "🍩","🍪","🎂","🍰","🍫","🍬","🍿","🍯",
-      "🥞","🧇","🍳","🥗"
-    ],
-  
-    travel: [
-      "🗺️","🧭","🏝️","⛰️","🏜️","🌋","🏕️","🏖️",
-      "🗽","🗼","🗿","🏰","🏯","⛩️","🕌","🛕",
-      "✈️","🚆","🚢","🚗","🚲","🛵","🚌","🚀",
-      "🌍","🌎","🌏","📸"
-    ],
-  
-    music: [
-      "🎵","🎶","🎼","🎧","🎤","🎸","🎹","🥁",
-      "🎻","🎺","🎷","🪗","📻","💿","📀","🎚️",
-      "🎛️","📣","🔊","🔉","🔈","🎙️","🎪",
-      "⭐","🔥","❤️","💥"
-    ],
-  
-    shapes: [
-      "🔴","🟠","🟡","🟢","🔵","🟣","⚫","⚪",
-      "⬛","⬜","🔺","🔻","🔷","🔶","🟦","🟩",
-      "🟥","🟧","🟨","🟪","⭐","❤️","💙","💚",
-      "💛","🖤","🤍","🤎"
-    ],
-  
-    gaming: [
-      "🎮","🕹️","👾","🎯","🧩","♟️","🎲","🃏",
-      "🏆","⚔️","🛡️","🏹","💣","🧨","🔮","🪄",
-      "💎","🧙","🧝","🧟","🧛","🧞","🐉","👑",
-      "⭐","🔥","🗝️","📜"
-    ],
-  
-    flags: [
-      "🇧🇷","🇺🇸","🇨🇦","🇫🇷","🇩🇪","🇮🇹","🇪🇸","🇵🇹",
-      "🇯🇵","🇰🇷","🇨🇳","🇦🇷","🇲🇽","🇨🇱","🇨🇴","🇵🇪",
-      "🇬🇧","🇮🇪","🇦🇺","🇳🇿","🇿🇦","🇪🇬","🇮🇳","🇷🇺",
-      "🇸🇪","🇳🇴","🇩🇰","🇫🇮"
-    ],
-  
-    emotions: [
-      "😀","😃","😄","😁","😆","😅","😂","🤣",
-      "😊","😍","😘","😎","🤩","🥳","😭","😡",
-      "😱","😴","🤯","🤔","😇","🥹","😤","😈",
-      "❤️","💔","💖","💘"
-    ],
-  
-    sports: [
-      "⚽","🏀","🏈","⚾","🥎","🎾","🏐","🏉",
-      "🥊","🥋","🎽","🏋️","🚴","🏊","🤸","⛹️",
-      "🤾","🏄","🏂","⛷️","🎿","🛹","🏓","🏸",
-      "🏆","🥇","🥈","🥉"
-    ],
-  
-    weather: [
-      "☀️","🌤️","⛅","🌥️","☁️","🌦️","🌧️","⛈️",
-      "🌩️","❄️","🌨️","☃️","⛄","🌬️","💨","🌪️",
-      "🌫️","🌈","🔥","💧","🌊","🌀","☔","⚡"
-    ],
-  
-    people: [
-      "👶","🧒","👦","👧","🧑","👩","👨","🧓",
-      "👴","👵","👩‍⚕️","👨‍⚕️","👩‍💻","👨‍💻",
-      "👩‍🎓","👨‍🎓","👩‍🚀","👨‍🚀","👩‍🍳","👨‍🍳",
-      "👮","🕵️","💂","👷","🧑‍🎨","🧑‍🚒",
-      "🦸","🦹"
-    ],
-  
-    symbols: [
-      "❤️","💔","❌","⭕","✅","⚠️","❓","❗",
-      "💯","🔔","🔕","⭐","🌟","✨","🔥","⚡",
-      "💥","☮️","☯️","✝️","☪️","🕉️","♾️","🔒",
-      "🔓","🛑","▶️","⏸️"
-    ]
-  };
 
-  const bgByCategory: Record<CategoryOption, string> = {
+    plants: [
+        "🌵", "🌴", "🌸", "🌻", "🍀", "🌺", "🌼", "🍁", "🌿", "🌲", "🌳", "🍃",
+        "🍄", "🌹", "🥀", "🌾", "🎋", "🪴", "🌷", "🌱", "🌰", "🍂", "🌽", "🍅",
+        "🥕", "🌶️", "🥬", "🥦"
+    ],
+
+    objects: [
+        "🚗", "📱", "⌚", "🎧", "💡", "📷", "🖊️", "🎒", "💻", "🖥️", "🕹️", "📚",
+        "📦", "🔑", "🧸", "🎁", "📺", "☎️", "🪑", "🛋️", "🚲", "✈️", "🚀", "🧯",
+        "🔋", "🧃", "🕯️", "🪟"
+    ],
+
+    foods: [
+        "🍎", "🍌", "🍓", "🍇", "🍉", "🍍", "🥭", "🍑",
+        "🍔", "🍕", "🌭", "🍟", "🥪", "🌮", "🍣", "🍤",
+        "🍩", "🍪", "🎂", "🍰", "🍫", "🍬", "🍿", "🍯",
+        "🥞", "🧇", "🍳", "🥗"
+    ],
+
+    travel: [
+        "🗺️", "🧭", "🏝️", "⛰️", "🏜️", "🌋", "🏕️", "🏖️",
+        "🗽", "🗼", "🗿", "🏰", "🏯", "⛩️", "🕌", "🛕",
+        "✈️", "🚆", "🚢", "🚗", "🚲", "🛵", "🚌", "🚀",
+        "🌍", "🌎", "🌏", "📸"
+    ],
+
+    music: [
+        "🎵", "🎶", "🎼", "🎧", "🎤", "🎸", "🎹", "🥁",
+        "🎻", "🎺", "🎷", "🪗", "📻", "💿", "📀", "🎚️",
+        "🎛️", "📣", "🔊", "🔉", "🔈", "🎙️", "🎪",
+        "⭐", "🔥", "❤️", "💥"
+    ],
+
+    shapes: [
+        "🔴", "🟠", "🟡", "🟢", "🔵", "🟣", "⚫", "⚪",
+        "⬛", "⬜", "🔺", "🔻", "🔷", "🔶", "🟦", "🟩",
+        "🟥", "🟧", "🟨", "🟪", "⭐", "❤️", "💙", "💚",
+        "💛", "🖤", "🤍", "🤎"
+    ],
+
+    gaming: [
+        "🎮", "🕹️", "👾", "🎯", "🧩", "♟️", "🎲", "🃏",
+        "🏆", "⚔️", "🛡️", "🏹", "💣", "🧨", "🔮", "🪄",
+        "💎", "🧙", "🧝", "🧟", "🧛", "🧞", "🐉", "👑",
+        "⭐", "🔥", "🗝️", "📜"
+    ],
+
+    flags: [
+        "🇧🇷", "🇺🇸", "🇨🇦", "🇫🇷", "🇩🇪", "🇮🇹", "🇪🇸", "🇵🇹",
+        "🇯🇵", "🇰🇷", "🇨🇳", "🇦🇷", "🇲🇽", "🇨🇱", "🇨🇴", "🇵🇪",
+        "🇬🇧", "🇮🇪", "🇦🇺", "🇳🇿", "🇿🇦", "🇪🇬", "🇮🇳", "🇷🇺",
+        "🇸🇪", "🇳🇴", "🇩🇰", "🇫🇮"
+    ],
+
+    emotions: [
+        "😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣",
+        "😊", "😍", "😘", "😎", "🤩", "🥳", "😭", "😡",
+        "😱", "😴", "🤯", "🤔", "😇", "🥹", "😤", "😈",
+        "❤️", "💔", "💖", "💘"
+    ],
+
+    sports: [
+        "⚽", "🏀", "🏈", "⚾", "🥎", "🎾", "🏐", "🏉",
+        "🥊", "🥋", "🎽", "🏋️", "🚴", "🏊", "🤸", "⛹️",
+        "🤾", "🏄", "🏂", "⛷️", "🎿", "🛹", "🏓", "🏸",
+        "🏆", "🥇", "🥈", "🥉"
+    ],
+
+    weather: [
+        "☀️", "🌤️", "⛅", "🌥️", "☁️", "🌦️", "🌧️", "⛈️",
+        "🌩️", "❄️", "🌨️", "☃️", "⛄", "🌬️", "💨", "🌪️",
+        "🌫️", "🌈", "🔥", "💧", "🌊", "🌀", "☔", "⚡"
+    ],
+
+    people: [
+        "👶", "🧒", "👦", "👧", "🧑", "👩", "👨", "🧓",
+        "👴", "👵", "👩‍⚕️", "👨‍⚕️", "👩‍💻", "👨‍💻",
+        "👩‍🎓", "👨‍🎓", "👩‍🚀", "👨‍🚀", "👩‍🍳", "👨‍🍳",
+        "👮", "🕵️", "💂", "👷", "🧑‍🎨", "🧑‍🚒",
+        "🦸", "🦹"
+    ],
+
+    symbols: [
+        "❤️", "💔", "❌", "⭕", "✅", "⚠️", "❓", "❗",
+        "💯", "🔔", "🔕", "⭐", "🌟", "✨", "🔥", "⚡",
+        "💥", "☮️", "☯️", "✝️", "☪️", "🕉️", "♾️", "🔒",
+        "🔓", "🛑", "▶️", "⏸️"
+    ],
+    vovo: vovoImages,
+};
+
+const bgByCategory: Record<CategoryOption, string> = {
     animals: "/bg-animals.jpg",
     plants: "/bg-plants.jpg",
     objects: "/bg-objects.jpg",
@@ -130,27 +147,27 @@ const categories: Record<CategoryOption, string[]> = {
     music: "/bg-music.jpg",
     shapes: "/bg-shapes.jpg",
     gaming: "/bg-gaming.jpg",
-  
+
     flags: "/bg-flags.jpg",
     emotions: "/bg-emotions.jpg",
     sports: "/bg-sports.jpg",
     weather: "/bg-weather.jpg",
     people: "/bg-people.jpg",
     symbols: "/bg-symbols.jpg",
-  };
-
- const cardSize = {
-  small:  "w-16 h-20 text-3xl md:w-30 md:h-30 md:text-4xl",
-  medium: "w-20 h-28 text-4xl md:w-28 md:h-36 md:text-5xl",
-  large:  "w-24 h-32 text-5xl md:w-24 md:h-24 md:text-6xl",
+    vovo: "/bg-vovo.jpeg",
 };
 
+const cardSize = {
+    small: "w-16 h-20 text-3xl md:w-30 md:h-30 md:text-4xl",
+    medium: "w-20 h-28 text-4xl md:w-28 md:h-36 md:text-5xl",
+    large: "w-24 h-32 text-5xl md:w-24 md:h-24 md:text-6xl",
+};
 
-  const sizeMap: Record<SizeOption, { pairs: number; cols: number }> = {
-    small:  { pairs: 8,  cols: 4 }, // 16 cartas
+const sizeMap: Record<SizeOption, { pairs: number; cols: number }> = {
+    small: { pairs: 8, cols: 4 }, // 16 cartas
     medium: { pairs: 12, cols: 6 }, // 24 cartas
-    large:  { pairs: 18, cols: 6 }, // 36 cartas
-  };
+    large: { pairs: 18, cols: 6 }, // 36 cartas
+};
 
 function shuffle<T>(array: T[]): T[] {
     return [...array].sort(() => Math.random() - 0.5);
@@ -166,19 +183,24 @@ export default function MemoryGame() {
 
     function startGame() {
         const { pairs } = sizeMap[size];
-        const baseItems = categories[category].slice(0, pairs);
-        const duplicated = [...baseItems, ...baseItems];
-
+      
+        const shuffledItems = shuffle(categories[category]);
+        const selectedItems = shuffledItems.slice(0, pairs);
+      
+        const duplicated = [...selectedItems, ...selectedItems];
+      
         const newCards: CardType[] = shuffle(duplicated).map((value, index) => ({
-            id: index,
-            value,
-            flipped: false,
-            matched: false,
+          id: index,
+          value,
+          flipped: false,
+          matched: false,
         }));
-
+      
         setCards(newCards);
         setSelected([]);
-    }
+        setGameFinished(false);
+      }
+      
 
     function handleFlip(card: CardType) {
         if (card.flipped || card.matched || selected.length === 2) return;
@@ -276,6 +298,7 @@ export default function MemoryGame() {
                         <option value="weather">Clima</option>
                         <option value="people">Pessoas</option>
                         <option value="symbols">Símbolos</option>
+                        <option value="vovo">Vovó 👵</option>
                     </select>
 
                     <button
@@ -296,18 +319,29 @@ export default function MemoryGame() {
                         <button
                             key={card.id}
                             onClick={() => handleFlip(card)}
-                            className={`${cardSize[size]} rounded flex items-center justify-center
-                  ${card.flipped || card.matched ? "bg-white" : "bg-emerald-600"}`}
+                            className={`${cardSize[size]} rounded flex items-center justify-center overflow-hidden
+      ${card.flipped || card.matched ? "bg-white" : "bg-emerald-600"}`}
                         >
-                            {card.flipped || card.matched ? card.value : ""}
+                            {card.flipped || card.matched ? (
+                                card.value.startsWith("/") ? (
+                                    <img
+                                        src={card.value}
+                                        alt="card"
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <span className="select-none">{card.value}</span>
+                                )
+                            ) : null}
                         </button>
                     ))}
+
                 </div>
             </div>
 
             {gameFinished && (
                 <div className="fixed inset-0 flex items-center justify-center z-50">
-                
+
                     <div className="absolute inset-0 bg-black/60" />
 
                     <div className="relative z-10  bg-white rounded-xl p-8 flex flex-col items-center gap-4 shadow-xl">

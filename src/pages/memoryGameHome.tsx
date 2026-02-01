@@ -1,7 +1,21 @@
 import { useEffect, useState } from "react";
 
 type SizeOption = "small" | "medium" | "large";
-type CategoryOption = "animals" | "plants" | "objects" | "foods" | "travel" | "music" | "shapes" | "gaming";
+type CategoryOption =
+  | "animals"
+  | "plants"
+  | "objects"
+  | "foods"
+  | "travel"
+  | "music"
+  | "shapes"
+  | "gaming"
+  | "flags"
+  | "emotions"
+  | "sports"
+  | "weather"
+  | "people"
+  | "symbols";
 
 type CardType = {
     id: number;
@@ -12,53 +26,102 @@ type CardType = {
 
 const categories: Record<CategoryOption, string[]> = {
     animals: [
-        "🐶", "🐱", "🐼", "🦊", "🐸", "🦁", "🐵", "🐮", "🐰", "🐯", "🦓", "🦒",
-        "🐘", "🐨", "🐔", "🦆", "🦉", "🦄", "🐙", "🦀", "🐬", "🐳", "🦈", "🐢",
-        "🐍", "🦎", "🐝", "🦋"
+      "🐶","🐱","🐼","🦊","🐸","🦁","🐵","🐮","🐰","🐯","🦓","🦒",
+      "🐘","🐨","🐔","🦆","🦉","🦄","🐙","🦀","🐬","🐳","🦈","🐢",
+      "🐍","🦎","🐝","🦋"
     ],
+  
     plants: [
-        "🌵", "🌴", "🌸", "🌻", "🍀", "🌺", "🌼", "🍁", "🌿", "🌲", "🌳", "🍃",
-        "🍄", "🌹", "🥀", "🌾", "🎋", "🪴", "🌷", "🌱", "🌰", "🍂", "🌽", "🍅",
-        "🥕", "🌶️", "🥬", "🥦"
+      "🌵","🌴","🌸","🌻","🍀","🌺","🌼","🍁","🌿","🌲","🌳","🍃",
+      "🍄","🌹","🥀","🌾","🎋","🪴","🌷","🌱","🌰","🍂","🌽","🍅",
+      "🥕","🌶️","🥬","🥦"
     ],
+  
     objects: [
-        "🚗", "📱", "⌚", "🎧", "💡", "📷", "🖊️", "🎒", "💻", "🖥️", "🕹️", "📚",
-        "📦", "🔑", "🧸", "🎁", "📺", "☎️", "🪑", "🛋️", "🚲", "✈️", "🚀", "🧯",
-        "🔋", "🧃", "🕯️", "🪟"
+      "🚗","📱","⌚","🎧","💡","📷","🖊️","🎒","💻","🖥️","🕹️","📚",
+      "📦","🔑","🧸","🎁","📺","☎️","🪑","🛋️","🚲","✈️","🚀","🧯",
+      "🔋","🧃","🕯️","🪟"
     ],
+  
     foods: [
-        "🍎", "🍌", "🍓", "🍇", "🍉", "🍍", "🥭", "🍑",
-        "🍔", "🍕", "🌭", "🍟", "🥪", "🌮", "🍣", "🍤",
-        "🍩", "🍪", "🎂", "🍰", "🍫", "🍬", "🍿", "🍯",
-        "🥞", "🧇", "🍳", "🥗"
+      "🍎","🍌","🍓","🍇","🍉","🍍","🥭","🍑",
+      "🍔","🍕","🌭","🍟","🥪","🌮","🍣","🍤",
+      "🍩","🍪","🎂","🍰","🍫","🍬","🍿","🍯",
+      "🥞","🧇","🍳","🥗"
     ],
+  
     travel: [
-        "🗺️", "🧭", "🏝️", "⛰️", "🏜️", "🌋", "🏕️", "🏖️",
-        "🗽", "🗼", "🗿", "🏰", "🏯", "⛩️", "🕌", "🛕",
-        "✈️", "🚆", "🚢", "🚗", "🚲", "🛵", "🚌", "🚀",
-        "🌍", "🌎", "🌏", "📸"
+      "🗺️","🧭","🏝️","⛰️","🏜️","🌋","🏕️","🏖️",
+      "🗽","🗼","🗿","🏰","🏯","⛩️","🕌","🛕",
+      "✈️","🚆","🚢","🚗","🚲","🛵","🚌","🚀",
+      "🌍","🌎","🌏","📸"
     ],
+  
     music: [
-        "🎵", "🎶", "🎼", "🎧", "🎤", "🎸", "🎹", "🥁",
-        "🎻", "🎺", "🎷", "🪗", "📻", "💿", "📀", "📱",
-        "🎚️", "🎛️", "📣", "🔊", "🔉", "🔈", "🎙️", "🎪",
-        "❤️", "💥", "⭐", "🔥"
+      "🎵","🎶","🎼","🎧","🎤","🎸","🎹","🥁",
+      "🎻","🎺","🎷","🪗","📻","💿","📀","🎚️",
+      "🎛️","📣","🔊","🔉","🔈","🎙️","🎪",
+      "⭐","🔥","❤️","💥"
     ],
+  
     shapes: [
-        "🔴", "🟠", "🟡", "🟢", "🔵", "🟣", "⚫", "⚪",
-        "⬛", "⬜", "🔺", "🔻", "🔷", "🔶", "🟦", "🟩",
-        "🟥", "🟧", "🟨", "🟩", "🟦", "🟪", "⭐", "❤️",
-        "💙", "💚", "💛", "🖤"
+      "🔴","🟠","🟡","🟢","🔵","🟣","⚫","⚪",
+      "⬛","⬜","🔺","🔻","🔷","🔶","🟦","🟩",
+      "🟥","🟧","🟨","🟪","⭐","❤️","💙","💚",
+      "💛","🖤","🤍","🤎"
     ],
+  
     gaming: [
-        "🎮", "🕹️", "👾", "🎯", "🧩", "♟️", "🎲", "🃏",
-        "🏆", "⚔️", "🛡️", "🏹", "💣", "🧨", "🔮", "🪄",
-        "💎", "🧙", "🧝", "🧟", "🧛", "🧞", "🐉", "👑",
-        "⭐", "🔥", "🗝️", "📜"
+      "🎮","🕹️","👾","🎯","🧩","♟️","🎲","🃏",
+      "🏆","⚔️","🛡️","🏹","💣","🧨","🔮","🪄",
+      "💎","🧙","🧝","🧟","🧛","🧞","🐉","👑",
+      "⭐","🔥","🗝️","📜"
+    ],
+  
+    flags: [
+      "🇧🇷","🇺🇸","🇨🇦","🇫🇷","🇩🇪","🇮🇹","🇪🇸","🇵🇹",
+      "🇯🇵","🇰🇷","🇨🇳","🇦🇷","🇲🇽","🇨🇱","🇨🇴","🇵🇪",
+      "🇬🇧","🇮🇪","🇦🇺","🇳🇿","🇿🇦","🇪🇬","🇮🇳","🇷🇺",
+      "🇸🇪","🇳🇴","🇩🇰","🇫🇮"
+    ],
+  
+    emotions: [
+      "😀","😃","😄","😁","😆","😅","😂","🤣",
+      "😊","😍","😘","😎","🤩","🥳","😭","😡",
+      "😱","😴","🤯","🤔","😇","🥹","😤","😈",
+      "❤️","💔","💖","💘"
+    ],
+  
+    sports: [
+      "⚽","🏀","🏈","⚾","🥎","🎾","🏐","🏉",
+      "🥊","🥋","🎽","🏋️","🚴","🏊","🤸","⛹️",
+      "🤾","🏄","🏂","⛷️","🎿","🛹","🏓","🏸",
+      "🏆","🥇","🥈","🥉"
+    ],
+  
+    weather: [
+      "☀️","🌤️","⛅","🌥️","☁️","🌦️","🌧️","⛈️",
+      "🌩️","❄️","🌨️","☃️","⛄","🌬️","💨","🌪️",
+      "🌫️","🌈","🔥","💧","🌊","🌀","☔","⚡"
+    ],
+  
+    people: [
+      "👶","🧒","👦","👧","🧑","👩","👨","🧓",
+      "👴","👵","👩‍⚕️","👨‍⚕️","👩‍💻","👨‍💻",
+      "👩‍🎓","👨‍🎓","👩‍🚀","👨‍🚀","👩‍🍳","👨‍🍳",
+      "👮","🕵️","💂","👷","🧑‍🎨","🧑‍🚒",
+      "🦸","🦹"
+    ],
+  
+    symbols: [
+      "❤️","💔","❌","⭕","✅","⚠️","❓","❗",
+      "💯","🔔","🔕","⭐","🌟","✨","🔥","⚡",
+      "💥","☮️","☯️","✝️","☪️","🕉️","♾️","🔒",
+      "🔓","🛑","▶️","⏸️"
     ]
-};
+  };
 
-const bgByCategory = {
+  const bgByCategory: Record<CategoryOption, string> = {
     animals: "/bg-animals.jpg",
     plants: "/bg-plants.jpg",
     objects: "/bg-objects.jpg",
@@ -67,13 +130,27 @@ const bgByCategory = {
     music: "/bg-music.jpg",
     shapes: "/bg-shapes.jpg",
     gaming: "/bg-gaming.jpg",
+  
+    flags: "/bg-flags.jpg",
+    emotions: "/bg-emotions.jpg",
+    sports: "/bg-sports.jpg",
+    weather: "/bg-weather.jpg",
+    people: "/bg-people.jpg",
+    symbols: "/bg-symbols.jpg",
+  };
+
+ const cardSize = {
+  small:  "w-16 h-20 text-3xl md:w-30 md:h-30 md:text-4xl",
+  medium: "w-20 h-28 text-4xl md:w-28 md:h-36 md:text-5xl",
+  large:  "w-24 h-32 text-5xl md:w-24 md:h-24 md:text-6xl",
 };
 
-const sizeMap: Record<SizeOption, { pairs: number; cols: number }> = {
-    small: { pairs: 10, cols: 5 },
-    medium: { pairs: 15, cols: 6 },
-    large: { pairs: 28, cols: 8 },
-};
+
+  const sizeMap: Record<SizeOption, { pairs: number; cols: number }> = {
+    small:  { pairs: 8,  cols: 4 }, // 16 cartas
+    medium: { pairs: 12, cols: 6 }, // 24 cartas
+    large:  { pairs: 18, cols: 6 }, // 36 cartas
+  };
 
 function shuffle<T>(array: T[]): T[] {
     return [...array].sort(() => Math.random() - 0.5);
@@ -193,6 +270,12 @@ export default function MemoryGame() {
                         <option value="music">Música</option>
                         <option value="shapes">Formas</option>
                         <option value="gaming">Jogos</option>
+                        <option value="flags">Bandeiras</option>
+                        <option value="emotions">Emoções</option>
+                        <option value="sports">Esportes</option>
+                        <option value="weather">Clima</option>
+                        <option value="people">Pessoas</option>
+                        <option value="symbols">Símbolos</option>
                     </select>
 
                     <button
@@ -213,7 +296,7 @@ export default function MemoryGame() {
                         <button
                             key={card.id}
                             onClick={() => handleFlip(card)}
-                            className={`w-16 h-20 md:w-36 md:h-36 text-4xl md:text-6xl rounded flex items-center justify-center
+                            className={`${cardSize[size]} rounded flex items-center justify-center
                   ${card.flipped || card.matched ? "bg-white" : "bg-emerald-600"}`}
                         >
                             {card.flipped || card.matched ? card.value : ""}

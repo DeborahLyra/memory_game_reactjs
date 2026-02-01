@@ -160,13 +160,13 @@ const bgByCategory: Record<CategoryOption, string> = {
 const cardSize = {
     small: "w-16 h-20 text-3xl md:w-30 md:h-30 md:text-4xl",
     medium: "w-20 h-28 text-4xl md:w-28 md:h-36 md:text-5xl",
-    large: "w-24 h-32 text-5xl md:w-24 md:h-24 md:text-6xl",
+    large: "w-24 h-32 text-5xl md:w-30 md:h-28 md:text-6xl",
 };
 
 const sizeMap: Record<SizeOption, { pairs: number; cols: number }> = {
     small: { pairs: 8, cols: 4 }, // 16 cartas
     medium: { pairs: 12, cols: 6 }, // 24 cartas
-    large: { pairs: 18, cols: 6 }, // 36 cartas
+    large: { pairs: 18, cols: 5 }, // 36 cartas
 };
 
 function shuffle<T>(array: T[]): T[] {

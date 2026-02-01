@@ -26,18 +26,18 @@ type CardType = {
 };
 
 const vovoImages = [
-    "/public/vovo/vovo_bebendo.jpeg",
+    "/vovo/vovo_bebendo.jpeg",
     "/vovo/vovo_bolo.jpeg",
-    "/public/vovo/vovo_cacatua.jpeg",
-    "/public/vovo/vovo_cartola.jpeg",
-    "/public/vovo/vovo_cinema.jpeg",
-    "/public/vovo/vovo_comendo.jpeg",
-    "/public/vovo/vovo_coracao_coreano.jpeg",
-    "/public/vovo/vovo_dando_lingua.jpeg",
-    "/public/vovo/vovo_espantada.jpeg",
-    "/public/vovo/vovo_flores.jpeg",
-    "/public/vovo/vovo_joinha.jpeg",
-    "/public/vovo/vovo_julgando.jpg",
+    "/vovo/vovo_cacatua.jpeg",
+    "/vovo/vovo_cartola.jpeg",
+    "/vovo/vovo_cinema.jpeg",
+    "/vovo/vovo_comendo.jpeg",
+    "/vovo/vovo_coracao_coreano.jpeg",
+    "/vovo/vovo_dando_lingua.jpeg",
+    "/vovo/vovo_espantada.jpeg",
+    "/vovo/vovo_flores.jpeg",
+    "/vovo/vovo_joinha.jpeg",
+    "/vovo/vovo_julgando.jpg",
 ];
 
 const categories: Record<CategoryOption, string[]> = {

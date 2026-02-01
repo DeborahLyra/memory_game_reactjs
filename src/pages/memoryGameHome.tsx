@@ -183,24 +183,24 @@ export default function MemoryGame() {
 
     function startGame() {
         const { pairs } = sizeMap[size];
-      
+
         const shuffledItems = shuffle(categories[category]);
         const selectedItems = shuffledItems.slice(0, pairs);
-      
+
         const duplicated = [...selectedItems, ...selectedItems];
-      
+
         const newCards: CardType[] = shuffle(duplicated).map((value, index) => ({
-          id: index,
-          value,
-          flipped: false,
-          matched: false,
+            id: index,
+            value,
+            flipped: false,
+            matched: false,
         }));
-      
+
         setCards(newCards);
         setSelected([]);
         setGameFinished(false);
-      }
-      
+    }
+
 
     function handleFlip(card: CardType) {
         if (card.flipped || card.matched || selected.length === 2) return;
@@ -366,3 +366,4 @@ export default function MemoryGame() {
 
     );
 }
+ 

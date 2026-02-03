@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const VOVO_PIN = "1421"; 
+
 type SizeOption = "small" | "medium" | "large";
 type CategoryOption =
     | "animals"
@@ -173,12 +175,18 @@ function shuffle<T>(array: T[]): T[] {
     return [...array].sort(() => Math.random() - 0.5);
 }
 
+
 export default function MemoryGame() {
     const [size, setSize] = useState<SizeOption>("small");
     const [category, setCategory] = useState<CategoryOption>("animals");
     const [cards, setCards] = useState<CardType[]>([]);
     const [selected, setSelected] = useState<CardType[]>([]);
     const [gameFinished, setGameFinished] = useState(false);
+    const [showVovoModal, setShowVovoModal] = useState(false);
+    const [vovoUnlocked, setVovoUnlocked] = useState(
+        localStorage.getItem("vovoUnlocked") === "true"
+    );
+    const [vovoPin, setVovoPin] = useState("");
 
 
     function startGame() {
@@ -253,6 +261,26 @@ export default function MemoryGame() {
         }
     }, [cards]);
 
+    function handleCategoryChange(value: CategoryOption) {
+        if (value === "vovo" && !vovoUnlocked) {
+            setShowVovoModal(true);
+            return;
+        }
+
+        setCategory(value);
+    }
+
+    function unlockVovo(pin: string) {
+        if (pin === VOVO_PIN) {
+            localStorage.setItem("vovoUnlocked", "true");
+            setVovoUnlocked(true);
+            setCategory("vovo");
+            setShowVovoModal(false);
+        } else {
+            alert("PIN incorreto 👵");
+        }
+    }
+
 
     return (
         <div
@@ -282,7 +310,9 @@ export default function MemoryGame() {
                     <select
                         className="p-2 rounded border-2 border-emerald-600 bg-emerald-600"
                         value={category}
-                        onChange={(e) => setCategory(e.target.value as CategoryOption)}
+                        onChange={(e) =>
+                            handleCategoryChange(e.target.value as CategoryOption)
+                        }
                     >
                         <option value="animals">Animais</option>
                         <option value="plants">Plantas</option>
@@ -362,8 +392,32 @@ export default function MemoryGame() {
                     </div>
                 </div>
             )}
+
+            {showVovoModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/60" />
+
+                    <div className="relative bg-white rounded-xl p-6 w-80 flex flex-col gap-4">
+                        <h2 className="text-2xl font-bold text-center text-black">👵 Área da Voinha</h2>
+
+                        <input
+                            type="password"
+                            maxLength={4}
+                            className="border p-2 rounded text-center text-xl tracking-widest"
+                            onChange={(e) => setVovoPin(e.target.value)}
+                        />
+
+                        <button
+                            onClick={() => unlockVovo(vovoPin)}
+                            className="bg-emerald-600 text-white py-2 rounded"
+                        >
+                            Entrar
+                        </button>
+                    </div>
+                </div>
+            )}
+
         </div>
 
     );
 }
- 

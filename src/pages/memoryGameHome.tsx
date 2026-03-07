@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const VOVO_PIN = "1421"; 
+const VOVO_PIN = "1421";
 
 type SizeOption = "small" | "medium" | "large";
 type CategoryOption =
@@ -175,6 +175,14 @@ function shuffle<T>(array: T[]): T[] {
     return [...array].sort(() => Math.random() - 0.5);
 }
 
+function getRandomCategory(): CategoryOption {
+    const availableCategories = Object.keys(categories).filter(
+        (cat) => cat !== "vovo"
+    ) as CategoryOption[];
+
+    const randomIndex = Math.floor(Math.random() * availableCategories.length);
+    return availableCategories[randomIndex];
+}
 
 export default function MemoryGame() {
     const [size, setSize] = useState<SizeOption>("small");
@@ -187,7 +195,6 @@ export default function MemoryGame() {
         localStorage.getItem("vovoUnlocked") === "true"
     );
     const [vovoPin, setVovoPin] = useState("");
-
 
     function startGame() {
         const { pairs } = sizeMap[size];
@@ -208,7 +215,6 @@ export default function MemoryGame() {
         setSelected([]);
         setGameFinished(false);
     }
-
 
     function handleFlip(card: CardType) {
         if (card.flipped || card.matched || selected.length === 2) return;
@@ -382,8 +388,13 @@ export default function MemoryGame() {
 
                         <button
                             onClick={() => {
+                                const randomCategory = getRandomCategory();
+                                setCategory(randomCategory);
                                 setGameFinished(false);
-                                startGame();
+
+                                setTimeout(() => {
+                                    startGame();
+                                }, 0);
                             }}
                             className="px-6 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700"
                         >
